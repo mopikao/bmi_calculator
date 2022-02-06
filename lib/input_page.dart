@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
+import 'constants.dart';
 
-const double bottomContainerHeight = 80.0;
-const Color greyCardColor = Color(0xFF1D1E33);
-const Color bottomContainerColor = Color(0xFFEB1555);
+enum Gender { male, female, unchosen }
 
 class InputPage extends StatefulWidget {
   @override
@@ -13,6 +12,9 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender = Gender.unchosen;
+  int userDefinedHeight = 165;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,37 +23,122 @@ class _InputPageState extends State<InputPage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(
-                    greyCardColor,
-                    mars_venus_widget(FontAwesomeIcons.mars, "MALE"),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
+                    },
+                    child: ReusableCard(
+                      selectedGender == Gender.male
+                          ? greyCardColor
+                          : greyCardColor_inactive,
+                      mars_venus_widget(FontAwesomeIcons.mars, "MALE"),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: ReusableCard(
-                    greyCardColor,
-                    mars_venus_widget(FontAwesomeIcons.venus, "FEMALE"),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedGender = Gender.female;
+                      });
+                    },
+                    child: ReusableCard(
+                      selectedGender == Gender.female
+                          ? greyCardColor
+                          : greyCardColor_inactive,
+                      mars_venus_widget(FontAwesomeIcons.venus, "FEMALE"),
+                    ),
                   ),
                 )
               ],
             ),
           ),
           Expanded(
-            child: ReusableCard(greyCardColor, SizedBox()),
+            child: ReusableCard(
+              greyCardColor,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'HEIGHT',
+                    style: labelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        userDefinedHeight.toString(),
+                        style: thickTextStyle,
+                      ),
+                      Text(
+                        'CM',
+                        style: labelTextStyle,
+                      )
+                    ],
+                  ),
+                  Slider(
+                      value: userDefinedHeight.toDouble(),
+                      min: 80.0,
+                      max: 220.0,
+                      activeColor: Color(0xFFEB1555),
+                      inactiveColor: Color(0xFF8D8E98),
+                      onChanged: (double newValue) {
+                        setState(() {
+                          userDefinedHeight = newValue.round();
+                        });
+                      }),
+                ],
+              ),
+            ),
           ),
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(greyCardColor, SizedBox()),
+                  child: ReusableCard(
+                    greyCardColor,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'WEIGHT (KG)',
+                          style: labelTextStyle,
+                        ),
+                        Text(
+                          '74',
+                          style: thickTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: ReusableCard(greyCardColor, SizedBox()),
+                  child: ReusableCard(
+                    greyCardColor,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: labelTextStyle,
+                        ),
+                        Text(
+                          '19',
+                          style: thickTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
