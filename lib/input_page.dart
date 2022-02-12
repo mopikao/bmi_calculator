@@ -14,6 +14,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender = Gender.unchosen;
   int userDefinedHeight = 165;
+  int userDefinedWeight = 75;
+  int userDefinedAge = 21;
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +117,27 @@ class _InputPageState extends State<InputPage> {
                           style: labelTextStyle,
                         ),
                         Text(
-                          '74',
+                          userDefinedWeight.toString(),
                           style: thickTextStyle,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundButtons(FontAwesomeIcons.minus, () {
+                              setState(() {
+                                userDefinedWeight--;
+                              });
+                            }),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            RoundButtons(FontAwesomeIcons.plus, () {
+                              setState(() {
+                                userDefinedWeight++;
+                              });
+                            })
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -133,9 +153,27 @@ class _InputPageState extends State<InputPage> {
                           style: labelTextStyle,
                         ),
                         Text(
-                          '19',
+                          userDefinedAge.toString(),
                           style: thickTextStyle,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundButtons(FontAwesomeIcons.minus, () {
+                              setState(() {
+                                userDefinedAge--;
+                              });
+                            }),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            RoundButtons(FontAwesomeIcons.plus, () {
+                              setState(() {
+                                userDefinedAge++;
+                              });
+                            })
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -148,9 +186,41 @@ class _InputPageState extends State<InputPage> {
             margin: EdgeInsets.only(top: 10.0),
             width: double.infinity,
             height: bottomContainerHeight,
+            child: Center(
+              child: Text(
+                'Submit',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
           )
         ],
       ),
+    );
+  }
+}
+
+class RoundButtons extends StatelessWidget {
+  RoundButtons(@required this.icon, this.onPressed);
+
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: Icon(icon),
+      shape: CircleBorder(),
+      constraints: BoxConstraints.tightFor(
+        width: 50.0,
+        height: 50.0,
+      ),
+      fillColor: Color(0xFF4C4F5E),
+      onPressed: onPressed,
+      elevation: 6.0,
+      disabledElevation: 6.0,
     );
   }
 }
