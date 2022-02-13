@@ -1,8 +1,11 @@
+import 'package:bmi_calculator/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'constants.dart';
+import 'calc_brain.dart';
+import 'results_page.dart';
 
 enum Gender { male, female, unchosen }
 
@@ -181,18 +184,36 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: bottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: bottomContainerHeight,
-            child: Center(
-              child: Text(
-                'Submit',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+          GestureDetector(
+            onTap: () {
+              CalculatorBrain calcResults =
+                  CalculatorBrain(userDefinedHeight, userDefinedWeight);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultsPage(
+                    calcResults.calculatedBMI(),
+                    calcResults.getResult(),
+                    calcResults.getInterpretation(),
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              color: bottomContainerColor,
+              margin: EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.only(bottom: 10.0),
+              width: double.infinity,
+              height: bottomContainerHeight,
+              child: Center(
+                child: Text(
+                  'Submit',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
             ),
           )
